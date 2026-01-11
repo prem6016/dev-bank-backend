@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+  pre_build:
+    commands:
+      - echo Logging in to DockerHub
+      - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  build:
+    commands:
+      - docker build -t devbank-backend .
+      - docker tag devbank-backend $DOCKER_USERNAME/devbank-backend:latest
+  post_build:
+    commands:
+      - docker push $DOCKER_USERNAME/devbank-backend:latest
